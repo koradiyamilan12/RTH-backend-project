@@ -114,13 +114,12 @@ Now you can access secured routes 🎉
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/user-api.git
-cd project
 
 # Install dependencies
 npm install
 
 # Run in dev mode
-npm run dev
+node app.js
 ````
 
 ---
