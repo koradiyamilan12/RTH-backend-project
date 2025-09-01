@@ -19,136 +19,82 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        gender:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string }
+        gender: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
     CreateUserInput:
       type: object
-      required:
-        - name
-        - email
-        - password
+      required: [name, email, password]
       properties:
-        name:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        gender:
-          type: string
-
+        name: { type: string }
+        email: { type: string }
+        password: { type: string }
+        gender: { type: string }
     UpdateUserInput:
       type: object
       properties:
-        name:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        gender:
-          type: string
+        name: { type: string }
+        email: { type: string }
+        password: { type: string }
+        gender: { type: string }
 
     # Menus
     Menu:
       type: object
       properties:
-        id:
-          type: integer
-        itemName:
-          type: string
-        itemDescription:
-          type: string
-        price:
-          type: number
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
+        id: { type: integer }
+        itemName: { type: string }
+        itemDescription: { type: string }
+        price: { type: number }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
     CreateMenuInput:
       type: object
-      required:
-        - name
-        - price
+      required: [itemName, price]
       properties:
-        itemName:
-          type: string
-        itemDescription:
-          type: string
-        price:
-          type: number
-
+        itemName: { type: string }
+        itemDescription: { type: string }
+        price: { type: number }
     UpdateMenuInput:
       type: object
       properties:
-        itemName:
-          type: string
-        itemDescription:
-          type: string
-        price:
-          type: number
+        itemName: { type: string }
+        itemDescription: { type: string }
+        price: { type: number }
 
     # Sessions
     Session:
       type: object
       properties:
-        id:
-          type: integer
-        userId:
-          type: integer
-        isDeleted:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
+        id: { type: integer }
+        userId: { type: integer }
+        isDeleted: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
     CreateSessionInput:
       type: object
-      required:
-        - userId
+      required: [userId]
       properties:
-        userId:
-          type: integer
-        isDeleted:
-          type: boolean
-          default: false
-
+        userId: { type: integer }
+        isDeleted: { type: boolean, default: false }
     UpdateSessionInput:
       type: object
       properties:
-        userId:
-          type: integer
-        isDeleted:
-          type: boolean
+        userId: { type: integer }
+        isDeleted: { type: boolean }
+
+security:
+  - bearerAuth: []
 
 paths:
   # Users
   /users:
     get:
       summary: Get all users
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       responses:
         "200":
           description: List of users
@@ -156,150 +102,108 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/User"
+                items: { $ref: "#/components/schemas/User" }
     post:
       summary: Create new user
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/CreateUserInput"
+            schema: { $ref: "#/components/schemas/CreateUserInput" }
       responses:
         "201":
           description: User created
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/User"
+              schema: { $ref: "#/components/schemas/User" }
 
   /users/{id}:
     get:
       summary: Get user by ID
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: User object
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "404":
-          description: User not found
+              schema: { $ref: "#/components/schemas/User" }
+        "404": { description: User not found }
     put:
       summary: Update a user
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateUserInput"
+            schema: { $ref: "#/components/schemas/UpdateUserInput" }
       responses:
         "200":
           description: User updated
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/User"
+              schema: { $ref: "#/components/schemas/User" }
     delete:
       summary: Delete a user
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
-        "200":
-          description: User deleted
+        "200": { description: User deleted }
 
   /users/upsert:
     put:
       summary: Upsert a single user
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateUserInput"
+            schema: { $ref: "#/components/schemas/UpdateUserInput" }
       responses:
-        "200":
-          description: User upserted successfully
+        "200": { description: User upserted successfully }
 
   /users/bulk-upsert:
     put:
       summary: Bulk upsert multiple users
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: array
-              items:
-                $ref: "#/components/schemas/UpdateUserInput"
+              items: { $ref: "#/components/schemas/UpdateUserInput" }
       responses:
-        "200":
-          description: Users upserted successfully
+        "200": { description: Users upserted successfully }
 
   /users/filter:
     post:
       summary: Get paginated and filtered users
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
+      tags: [Users]
       requestBody:
-        required: false
         content:
           application/json:
             schema:
               type: object
               properties:
-                page:
-                  type: integer
-                  default: 1
-                limit:
-                  type: integer
-                  default: 10
+                page: { type: integer, default: 1 }
+                limit: { type: integer, default: 10 }
                 search:
-                  type: string
-                  description: Search keyword for name/email
+                  { type: string, description: Search keyword for name/email }
       responses:
         "200":
           description: Paginated list of users
@@ -308,21 +212,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  total:
-                    type: integer
+                  total: { type: integer }
                   data:
                     type: array
-                    items:
-                      $ref: "#/components/schemas/User"
+                    items: { $ref: "#/components/schemas/User" }
 
   # Menus
   /menu:
     get:
       summary: Get all menus
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       responses:
         "200":
           description: List of menus
@@ -330,49 +229,35 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/Menu"
+                items: { $ref: "#/components/schemas/Menu" }
     post:
       summary: Create new menu
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/CreateMenuInput"
+            schema: { $ref: "#/components/schemas/CreateMenuInput" }
       responses:
         "201":
           description: Menu created
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Menu"
+              schema: { $ref: "#/components/schemas/Menu" }
 
   /menu/filter:
     post:
       summary: Filter menus
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       requestBody:
-        required: false
         content:
           application/json:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                  description: Filter by menu name
-                minPrice:
-                  type: number
-                maxPrice:
-                  type: number
+                name: { type: string }
+                minPrice: { type: number }
+                maxPrice: { type: number }
       responses:
         "200":
           description: Filtered menus
@@ -380,80 +265,59 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/Menu"
+                items: { $ref: "#/components/schemas/Menu" }
 
   /menu/{id}:
     get:
       summary: Get menu by ID
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: Menu object
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Menu"
-        "404":
-          description: Menu not found
+              schema: { $ref: "#/components/schemas/Menu" }
+        "404": { description: Menu not found }
     put:
       summary: Update a menu
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateMenuInput"
+            schema: { $ref: "#/components/schemas/UpdateMenuInput" }
       responses:
         "200":
           description: Menu updated
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Menu"
+              schema: { $ref: "#/components/schemas/Menu" }
     delete:
       summary: Delete a menu
-      tags:
-        - Menus
-      security:
-        - bearerAuth: []
+      tags: [Menus]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
-        "200":
-          description: Menu deleted
+        "200": { description: Menu deleted }
 
   # Sessions
   /sessions:
     get:
       summary: Get all sessions
-      tags:
-        - Sessions
-      security:
-        - bearerAuth: []
+      tags: [Sessions]
       responses:
         "200":
           description: List of sessions
@@ -461,90 +325,67 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: "#/components/schemas/Session"
+                items: { $ref: "#/components/schemas/Session" }
     post:
       summary: Create new session
-      tags:
-        - Sessions
-      security:
-        - bearerAuth: []
+      tags: [Sessions]
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/CreateSessionInput"
+            schema: { $ref: "#/components/schemas/CreateSessionInput" }
       responses:
         "201":
           description: Session created
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Session"
+              schema: { $ref: "#/components/schemas/Session" }
 
   /sessions/{id}:
     get:
       summary: Get session by ID
-      tags:
-        - Sessions
-      security:
-        - bearerAuth: []
+      tags: [Sessions]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
         "200":
           description: Session object
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Session"
-        "404":
-          description: Session not found
+              schema: { $ref: "#/components/schemas/Session" }
+        "404": { description: Session not found }
     put:
       summary: Update a session
-      tags:
-        - Sessions
-      security:
-        - bearerAuth: []
+      tags: [Sessions]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateSessionInput"
+            schema: { $ref: "#/components/schemas/UpdateSessionInput" }
       responses:
         "200":
           description: Session updated
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Session"
+              schema: { $ref: "#/components/schemas/Session" }
     delete:
       summary: Delete a session
-      tags:
-        - Sessions
-      security:
-        - bearerAuth: []
+      tags: [Sessions]
       parameters:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          schema: { type: integer }
       responses:
-        "200":
-          description: Session deleted
+        "200": { description: Session deleted }
 
 tags:
   - name: Users
