@@ -75,6 +75,8 @@ const ERROR_MESSAGES = {
   TOKEN_REQUIRED: "Token is required",
   TOKEN_EXPIRED: "Token has expired",
   TOKEN_INVALID: "Invalid token",
+
+  EMAIL_SEND_ERROR: "Email sending failed",
 };
 
 module.exports = {

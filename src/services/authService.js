@@ -4,6 +4,7 @@ const { getUserByEmail, updateUser, unblockUserRepo } = require("../repository/a
 const { getConfigValue } = require("../services/configService");
 const { comparePassword } = require("../utils/hashPassword");
 const { generateToken } = require("../utils/jwt");
+const { sendWelcomeMail } = require("./mailService");
 
 const loginService = async (data) => {
   const { email, password } = data;
@@ -37,6 +38,8 @@ const loginService = async (data) => {
   await updateUser(user.id, { attempts: 0 });
 
   const token = generateToken({ id: user.id });
+
+  sendWelcomeMail(user);
 
   return { user, token };
 };

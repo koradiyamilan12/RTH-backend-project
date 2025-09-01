@@ -26,9 +26,16 @@ class ForbiddenError extends CustomError {
   }
 }
 
+class MailError extends CustomError {
+  constructor(message = ERROR_MESSAGES.EMAIL_SEND_ERROR, details) {
+    super(message, StatusCodes.INTERNAL_SERVER_ERROR, details);
+  }
+}
+
 module.exports = {
   NotFoundError,
   BadRequestError,
   UnauthorizedError,
-  ForbiddenError
+  ForbiddenError,
+  MailError
 };
