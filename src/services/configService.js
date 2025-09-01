@@ -19,13 +19,12 @@ const getConfigValue = async (key) => {
   }
 
   const config = await getConfigByKey(key);
-  if (!config) {
-    return null;
+  if (config) {
+    configCache[config.key] = config.value;
+    return config.value;
   }
 
-  configCache[config.key] = config.value;
-
-  return config.value;
+  return "5";
 };
 
 const updateConfigs = async (data) => {
